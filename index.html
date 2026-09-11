@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Éditeur Mermaid</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%232b6cb0'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <header class="toolbar">
+      <div class="brand">Éditeur Mermaid</div>
+      <div class="toolbar-group">
+        <button type="button" id="btn-open">Ouvrir</button>
+        <button type="button" id="btn-save">Enregistrer</button>
+        <button type="button" id="btn-save-as">Enregistrer sous</button>
+      </div>
+      <div class="toolbar-group">
+        <button type="button" id="btn-export-svg">Export SVG</button>
+        <button type="button" id="btn-export-png">Export PNG</button>
+      </div>
+      <div class="toolbar-group toolbar-end">
+        <label class="field">
+          <span>Diagramme</span>
+          <select id="diagram-theme">
+            <option value="default">default</option>
+            <option value="dark">dark</option>
+            <option value="forest">forest</option>
+            <option value="neutral">neutral</option>
+          </select>
+        </label>
+        <button type="button" id="btn-ui-theme" aria-label="Passer au thème sombre">Sombre</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="pane pane-edit">
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab active" role="tab" data-tab="code" aria-selected="true">Code</button>
+          <button type="button" class="tab" role="tab" data-tab="visual" aria-selected="false">Visuel</button>
+        </div>
+
+        <div id="panel-code" class="panel" role="tabpanel">
+          <label class="sr-only" for="source">Source Mermaid</label>
+          <textarea id="source" spellcheck="false" autocomplete="off"></textarea>
+        </div>
+
+        <div id="panel-visual" class="panel" role="tabpanel" hidden>
+          <aside class="palette">
+            <p class="palette-title">Formes</p>
+            <button type="button" class="palette-item" draggable="true" data-shape="rect">
+              <svg viewBox="0 0 48 28" aria-hidden="true"><rect x="1" y="4" width="46" height="20" rx="2" /></svg>
+              Processus
+            </button>
+            <button type="button" class="palette-item" draggable="true" data-shape="diamond">
+              <svg viewBox="0 0 48 28" aria-hidden="true"><polygon points="24,2 46,14 24,26 2,14" /></svg>
+              Décision
+            </button>
+            <button type="button" class="palette-item" draggable="true" data-shape="stadium">
+              <svg viewBox="0 0 48 28" aria-hidden="true"><rect x="1" y="4" width="46" height="20" rx="10" /></svg>
+              Début / fin
+            </button>
+            <button type="button" class="palette-item" draggable="true" data-shape="round">
+              <svg viewBox="0 0 48 28" aria-hidden="true"><rect x="1" y="4" width="46" height="20" rx="7" /></svg>
+              Arrondi
+            </button>
+            <label class="field field-stack">
+              <span>Direction</span>
+              <select id="flow-direction">
+                <option value="TD">Haut → bas</option>
+                <option value="LR">Gauche → droite</option>
+                <option value="BT">Bas → haut</option>
+                <option value="RL">Droite → gauche</option>
+              </select>
+            </label>
+            <p class="hint">Glissez une forme sur le canevas, reliez les points, double-cliquez pour nommer, Suppr pour effacer.</p>
+          </aside>
+          <div class="canvas-wrap" id="canvas-wrap">
+            <svg id="canvas" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div id="visual-unsupported" class="unsupported" hidden>
+              <p id="visual-unsupported-text"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pane pane-preview">
+        <div class="preview-header">Aperçu</div>
+        <div id="preview" class="preview" data-diagram-theme="default"></div>
+        <div id="error" class="error" hidden></div>
+      </section>
+    </main>
+
+    <input id="file-input" type="file" accept=".mmd,.md,.txt,text/plain" hidden />
+
+    <script src="vendor/mermaid.min.js"></script>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
