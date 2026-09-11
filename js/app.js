@@ -3,7 +3,8 @@ import { initExport } from "./export.js";
 import { initFiles } from "./files.js";
 import { createEmptyModel, mergeLayout } from "./graph-model.js";
 import { generateFlowchart, parseFlowchart } from "./mermaid-sync.js";
-import { getPreviewSvg, renderPreview } from "./preview.js";
+import { initPresent } from "./present.js";
+import { fitPreviewToViewport, getPreviewSvg, renderPreview } from "./preview.js";
 import { initTheme } from "./theme.js";
 import { initVisualEditor } from "./visual-editor.js";
 
@@ -72,7 +73,24 @@ tabs.forEach((button) => {
   });
 });
 
+initPresent({
+  onChange(presenting) {
+    if (presenting) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => fitPreviewToViewport());
+      });
+      return;
+    }
+    renderPreview(source, { theme: theme.getDiagramTheme() });
+    if (!panelVisual.hidden) visual.resize();
+  },
+});
+
 window.addEventListener("resize", () => {
+  if (document.body.classList.contains("presenting")) {
+    fitPreviewToViewport();
+    return;
+  }
   if (!panelVisual.hidden) visual.resize();
 });
 

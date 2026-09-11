@@ -18,6 +18,7 @@
       <div class="toolbar-group">
         <button type="button" id="btn-export-svg">Export SVG</button>
         <button type="button" id="btn-export-png">Export PNG</button>
+        <button type="button" id="btn-present" aria-pressed="false" title="Présentation plein écran (F8)">Présenter</button>
       </div>
       <div class="toolbar-group toolbar-end">
         <label class="field">
@@ -90,6 +91,9 @@
         <div id="error" class="error" hidden></div>
       </section>
     </main>
+
+    <button type="button" id="btn-present-exit" class="present-exit" hidden>Quitter</button>
+    <p id="present-hint" class="present-hint" hidden>Échap pour quitter la présentation</p>
 
     <input id="file-input" type="file" accept=".mmd,.md,.txt,text/plain" hidden />
 

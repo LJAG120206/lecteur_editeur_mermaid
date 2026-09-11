@@ -35,6 +35,7 @@ export async function renderPreview(source, { theme = "default" } = {}) {
     if (current !== sequence) return;
     preview.innerHTML = svg;
     hideError(error);
+    if (document.body.classList.contains("presenting")) fitPreviewToViewport();
   } catch (err) {
     if (current !== sequence) return;
     showError(error, humanize(err));
@@ -43,6 +44,40 @@ export async function renderPreview(source, { theme = "default" } = {}) {
 
 export function getPreviewSvg() {
   return document.querySelector("#preview svg");
+}
+
+export function fitPreviewToViewport() {
+  const svg = getPreviewSvg();
+  const wrap = document.getElementById("preview");
+  if (!svg || !wrap) return;
+
+  svg.style.maxWidth = "none";
+  svg.style.width = "";
+  svg.style.height = "";
+
+  let boxWidth = 0;
+  let boxHeight = 0;
+  if (svg.viewBox?.baseVal?.width) {
+    boxWidth = svg.viewBox.baseVal.width;
+    boxHeight = svg.viewBox.baseVal.height;
+  } else {
+    try {
+      const box = svg.getBBox();
+      boxWidth = box.width;
+      boxHeight = box.height;
+    } catch {
+      return;
+    }
+  }
+  if (!boxWidth || !boxHeight) return;
+
+  const padding = 48;
+  const availW = Math.max(120, Math.min(wrap.clientWidth || Infinity, window.innerWidth) - padding);
+  const availH = Math.max(120, Math.min(wrap.clientHeight || Infinity, window.innerHeight) - padding);
+  const scale = Math.min(availW / boxWidth, availH / boxHeight);
+  if (!Number.isFinite(scale) || scale <= 0) return;
+  svg.setAttribute("width", String(boxWidth * scale));
+  svg.setAttribute("height", String(boxHeight * scale));
 }
 
 export function getLastTheme() {

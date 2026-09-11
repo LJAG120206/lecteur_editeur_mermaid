@@ -35,6 +35,7 @@ Le serveur local utilise le module standard `http.server`. Installez [Python 3](
 - **Visuel** : pour les *flowcharts* simples (`flowchart TD` / `LR`), glissez des formes, reliez-les, double-cliquez pour renommer, Suppr pour effacer.
 - **Ouvrir / Enregistrer** : fichiers `.mmd`, `.md` ou `.txt`.
 - **Export** : SVG ou PNG du diagramme rendu.
+- **Présenter** : affiche uniquement le diagramme en plein écran (sans code). Raccourci **F8**, **Échap** pour quitter.
 - **Thèmes** : interface clair/sombre et thème Mermaid (default, dark, forest, neutral).
 
 Le brouillon est conservé dans le navigateur (`localStorage`). Un rafraîchissement ne perd pas le travail en cours.
